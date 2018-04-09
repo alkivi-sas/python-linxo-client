@@ -1,0 +1,11 @@
+# Needed for test
+pytest
+pytest-cov
+
+# Needed for generated and upload to pypand
+pypandoc
+twine
+wheel
+
+# To check syntax
+flake8
