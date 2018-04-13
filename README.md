@@ -1,55 +1,91 @@
-python-package-boilerplate
+python-linxo-client
 ==========================
 
-[![Build Status](https://travis-ci.org/alkivi-sas/python-package-boilerplate.svg?branch=master)](https://travis-ci.org/alkivi-sas/python-package-boilerplate)
-[![Requirements Status](https://requires.io/github/alkivi-sas/python-package-boilerplate/requirements.svg?branch=master)](https://requires.io/github/alkivi-sas/python-package-boilerplate/requirements/?branch=master)
+[![Build Status](https://travis-ci.org/alkivi-sas/python-linxo-client.svg?branch=master)](https://travis-ci.org/alkivi-sas/python-linxo-client)
+[![Requirements Status](https://requires.io/github/alkivi-sas/python-linxo-client/requirements.svg?branch=master)](https://requires.io/github/alkivi-sas/python-linxo-client/requirements/?branch=master)
 
-Boilerplate for a Python Package
+Python client for Linxo API (https://www.linxo.com)
 
-## Package
+Installation
+============
 
-Basic structure of package is
+The python wrapper works with Python 2.6+ and Python 3.2+.
 
-```
-├── README.md
-├── packagename
-│   ├── __init__.py
-│   ├── packagename.py
-│   └── version.py
-├── pytest.ini
-├── requirements.txt
-├── setup.py
-└── tests
-    ├── __init__.py
-    ├── helpers
-    │   ├── __init__.py
-    │   └── my_helper.py
-    ├── tests_helper.py
-    └── unit
-        ├── __init__.py
-        ├── test_example.py
-        └── test_version.py
-```
+The easiest way to get the latest stable release is to grab it from `pypi
+<https://pypi.python.org/pypi/ovh>`_ using ``pip``.
 
-## Requirements
+.. code:: bash
 
-Package requirements are handled using pip. To install them do
+    pip install linxo-client
 
-```
-pip install -r requirements.txt
-```
+Alternatively, you may get latest development version directly from Git.
 
-## Tests
+.. code:: bash
 
-Testing is set up using [pytest](http://pytest.org) and coverage is handled
-with the pytest-cov plugin.
+    pip install -e git+https://github.com/alkivi-sas/python-linxo-client.git#egg=ovh
 
-Run your tests with ```py.test``` in the root directory.
 
-Coverage is ran by default and is set in the ```pytest.ini``` file.
-To see an html output of coverage open ```htmlcov/index.html``` after running the tests.
+## Configuration
 
-## Travis CI
+Create a linxo.conf. They are parsend in that order.
 
-There is a ```.travis.yml``` file that is set up to run your tests for python 2.7
-and python 3.2, should you choose to use it.
+.. code:: bash
+    # Current directory
+    ./linxo.conf
+
+    # Home directory
+    ~/.linxo.conf
+
+    # Global
+    /etc/linxo.conf
+
+
+The file should contains client_id and client_secret with a fake access and refresh_token. You can obtain client_id and client_secret by contacting Linxo.
+
+.. code:: ini
+
+    [default]
+    endpoint = prod
+
+    [prod]
+    client_id = dazjdkazldnoiazd,azldaz
+    client_secret = dazdazdza
+    access_token = fake for now
+    refresh_token = fake for now
+
+Next step is to generate a token
+
+.. code:: python
+
+    # -*- encoding: utf-8 -*-
+
+    import linxo
+
+    # create a client using configuration
+    client = linxo.Client()
+
+    # Request token
+    valid_scopes = [
+            'accounts_manage',
+            'accounts_read',
+            'connections_manage',
+            'connections_sync',
+            'transactions_read',
+            'users_create']
+    client.generate_token(scopes=['transactions_read'])
+
+Execute the code, you will be asked to login to linxo and you will be redirected to localhost.
+Copy the code part, and the token will be save to your configuration file automatically.
+
+## Usage
+
+    # -*- encoding: utf-8 -*-
+
+    import linxo
+
+    client = linxo.Client()
+    client.get('/transactions')
+
+## Documentation
+
+The api documentaiton is available here : https://sandbox-api.linxo.com/v2/documentation/
