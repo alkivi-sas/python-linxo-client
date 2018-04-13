@@ -24,7 +24,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.0.1',
 
-    description='TODO',
+    description='Python client for Linxo API',
     long_description=long_description,
 
     # The project's main homepage.
