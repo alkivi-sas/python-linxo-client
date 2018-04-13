@@ -19,6 +19,7 @@ deploy:
   user: martintamare
   on:
     tags: true
+    python: '3.6'
   password:
     secure: qlwxO89T+BQKRuDA49gfZ8OhSJT53eFc+/GYhGqMnqJsFXAw1Boem6FMEaE4ZiBMk/DVjZGsszF6rvN7lYcD36ES7IvvMzr19AWpd7XexX6LggUFNdiUQTI9mILqv/pgBVLVROb56h9qAmP2cLbTVe9TIjPWXJ6y8jgHINojwOG/6b/Kcq6KhP0DHvz/HJG8uC+ombXuLYg4SHzuIldqk5tNIpCWQFvicPCp3zRr+oh30i6yy5/gEIRdVY9aiiNf3qarW/rsZZ5NTdAA1S0b9VptbTl6EJFcHcuZFAypoMWUPhSIYrqww8wreyK1AXM6MZ6Q2h6mecGGaO9E+M9+Z5iPAeA+C4BWX5gGatmetuUzvpWoRHgKwUkx8fjmaXnnPAhdAwVj/Gx32xHLp/2UGoiqAmYv2E5Oy8DadzyiS/4yiEWX1O1PB5OPvDZOvnDnk2szPcGRvIY86DL5w/DlPopl843hPusJ0MZHxC6uj/Loh6Okdt8dh1SZF6sS4//t+fICAcKxPBtb3CVjWpneRiEZnPPmvj5BWIEKaVWNWr8HBsBWfQW2vXpK32DgHCo1uFXvNSKTtj42YiWjB1c0Ok2YQi5fSLKS/8PrIZ3vdO3P4PvVw4gmG745VH0CirYHwJdLWHBns888Djwx/tTuEAIgdqZU+qo/+1sTeAC2i1U=
 before_deploy: 'pip install -r requirements.txt'
