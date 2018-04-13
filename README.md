@@ -1,6 +1,9 @@
 python-linxo-client
 ==========================
 
+
+![PyPI](https://img.shields.io/pypi/v/linxo.svg)
+![PyPI](https://img.shields.io/pypi/status/linxo.svg)
 [![Build Status](https://travis-ci.org/alkivi-sas/python-linxo-client.svg?branch=master)](https://travis-ci.org/alkivi-sas/python-linxo-client)
 [![Requirements Status](https://requires.io/github/alkivi-sas/python-linxo-client/requirements.svg?branch=master)](https://requires.io/github/alkivi-sas/python-linxo-client/requirements/?branch=master)
 
