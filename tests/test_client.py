@@ -84,6 +84,25 @@ class testClient(unittest.TestCase):
     @mock.patch('linxo.client.get_code', return_value='fake_code')
     @mock.patch('linxo.client.OAuth2Session.fetch_token')
     def test_generate_token(self, m_req, m_code):
+
+	# Overwrite configuration to avoid interfering with any local config
+        from linxo.client import config
+        try:
+            from ConfigParser import RawConfigParser
+        except ImportError:
+            # Python 3
+            from configparser import RawConfigParser
+
+        self._orig_config = config.config
+        config.config = RawConfigParser()
+
+        config.config.add_section('prod')
+        config.config.set('prod', 'client_id', CLIENT_ID)
+        config.config.set('prod', 'client_secret', CLIENT_SECRET)
+        config.config.set('prod', 'refresh_token', REFRESH_TOKEN)
+        config.filename = '/tmp/test'
+        config.write()
+
         m_req.return_value = {
             'refresh_token': 'fake generated refresh_token',
             'access_token': 'fake generated access_token',
@@ -96,6 +115,11 @@ class testClient(unittest.TestCase):
         m_req.assert_called_once_with(AUTH_URL + '/token',
                                       client_secret=CLIENT_SECRET,
                                       code='fake_code')
+
+        config.read('/tmp/test')
+        self.assertEqual(config.config.get('prod', 'refresh_token'), 'fake generated refresh_token')
+
+        config.config = self._orig_config
 
     def test__canonicalize_kwargs(self):
         api = Client(ENDPOINT, CLIENT_ID, CLIENT_SECRET)

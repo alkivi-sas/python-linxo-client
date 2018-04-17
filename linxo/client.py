@@ -53,7 +53,7 @@ def get_code(text):
 
 class Client(object):
     def __init__(self, endpoint=None, client_id=None, client_secret=None,
-                 refresh_token=None, config_file=None,
+                 refresh_token=None, config_file=None, token_updater=None,
                  timeout=TIMEOUT, debug=False):
         """Creates a new Client. No credential check is done at this point."""
         if config_file:
@@ -81,6 +81,9 @@ class Client(object):
             refresh_token = config.get(endpoint, 'refresh_token')
         self._refresh_token = refresh_token
 
+        if token_updater is None:
+            token_updater = self._save_token
+
         # Override default timeout
         self._timeout = timeout
 
@@ -95,7 +98,7 @@ class Client(object):
         self._session = OAuth2Session(client_id=client_id,
                                       auto_refresh_kwargs=refresh_kwars,
                                       auto_refresh_url=self.token_url,
-                                      token_updater=self._save_token,
+                                      token_updater=token_updater,
                                       token={
                                           'access_token': 'empty one',
                                           'refresh_token': refresh_token,
@@ -257,6 +260,8 @@ class Client(object):
 
     def _save_token(self, token):
         """Once a new token has been generate, save it to config file."""
+        config.set(self.endpoint, 'refresh_token', token.get('refresh_token'))
+        config.write()
         self._session.token = token
 
     def raw_call(self, method, path, data=None):
