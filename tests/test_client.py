@@ -85,7 +85,7 @@ class testClient(unittest.TestCase):
     @mock.patch('linxo.client.OAuth2Session.fetch_token')
     def test_generate_token(self, m_req, m_code):
 
-	# Overwrite configuration to avoid interfering with any local config
+        # Overwrite configuration to avoid interfering with any local config
         from linxo.client import config
         try:
             from ConfigParser import RawConfigParser
@@ -118,6 +118,9 @@ class testClient(unittest.TestCase):
 
         config.read('/tmp/test')
         self.assertEqual(config.config.get('prod', 'refresh_token'), 'fake generated refresh_token')
+
+        api.set_token(m_req.return_value)
+        self.assertEqual(api._session.token['refresh_token'], 'fake generated refresh_token')
 
         config.config = self._orig_config
 

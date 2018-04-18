@@ -262,6 +262,10 @@ class Client(object):
         """Once a new token has been generate, save it to config file."""
         config.set(self.endpoint, 'refresh_token', token.get('refresh_token'))
         config.write()
+        self.set_token(token)
+
+    def set_token(self, token):
+        """Save the token to the session."""
         self._session.token = token
 
     def raw_call(self, method, path, data=None):
